@@ -1,14 +1,13 @@
 # Redis 配置
 
-
-
-* > 某些命令需要安装redis-tools
+* > 某些命令需要安装redis-tools  
   > ubuntu:
   >
   > sudo apt-get install redis-tools
-
 * 数据持久化配置
+
   * RDB\(默认开启\)
+
     > save \[second\] \[changes\]
     >
     > 在second秒内发生了多少次change，就进行一次写入硬盘rdb文件的行为，这个行为是由子进程来完成的。
@@ -21,7 +20,9 @@
     ##手动触发
     bgsave
     ```
+
   * AOF\(默认关闭\)
+
     ```
     ## 开启AOF redis操作写入日志文件
     appendonly yes
@@ -50,6 +51,48 @@
     ## 4.重启redis，重新加载修复过的aof文件
 
     ```
+
+> #### 　数据库一定要做容灾备份
+
+* 内存管理和数据淘汰机制
+  * 最大内存设置
+    > 默认下，redis在32位os中最大使用3G内存,在64位os中无限制
+    > 为防止内存使用过度，影响其他服务的执行，我们要设定redis的最大内存
+
+    ```
+    maxmemory 100mb
+    ```
+  * 数据淘汰机制
+    > LRU算法：淘汰上次使用最早的，并使用次数最少的key
+
+    * volatile-lru
+
+    > 使用lru算法，并只淘汰设置有效期的key
+
+    * allkeys-lru
+
+    > 使用lru算法，淘汰所有满足算法条件的key
+
+    * volatile-random
+
+    > 随机淘汰设置了有效期的key
+
+    * allkeys-random
+
+    > 随机淘汰key
+
+    * volatile-ttl
+
+    > 淘汰有效期最短的key
+
+    ```
+    #　默认是noeviction，即不进行数据淘汰
+    maxmemory-policy volatile-lru 
+    ```
+
+
+
+
 
 
 
