@@ -1,4 +1,4 @@
-# Redis 配置
+# Redis 基础配置
 
 * > 某些命令需要安装redis-tools  
   > ubuntu:
@@ -49,20 +49,23 @@
     ## 3.比对两者aof文件的区别（使用linux\uninx命令进行）-->可选
     diff -u [old] [new] > [update.patch]
     ## 4.重启redis，重新加载修复过的aof文件
-
     ```
 
-> #### 　数据库一定要做容灾备份
+> #### 数据库一定要做容灾备份
 
 * 内存管理和数据淘汰机制
+
   * 最大内存设置
-    > 默认下，redis在32位os中最大使用3G内存,在64位os中无限制
+
+    > 默认下，redis在32位os中最大使用3G内存,在64位os中无限制  
     > 为防止内存使用过度，影响其他服务的执行，我们要设定redis的最大内存
 
     ```
     maxmemory 100mb
     ```
+
   * 数据淘汰机制
+
     > LRU算法：淘汰上次使用最早的，并使用次数最少的key
 
     * volatile-lru
@@ -87,10 +90,22 @@
 
     ```
     #　默认是noeviction，即不进行数据淘汰
-    maxmemory-policy volatile-lru 
+    maxmemory-policy volatile-lru
     ```
 
+> redis算法的时间复杂度基本在O\(1\)~O\(N\)之间，一般使用大量的O\(N\)命令会导致时间延迟，因为redis是线程串行运行的
 
+* 记录耗时时间长的命令　的配置
+  ```
+  showlog-log-slower-than xxxms #执行时间慢于xxx毫秒的命令会写入Show Log
+  showlog-max-len xxx #Show Log的长度，即最大多少条记录
+  ```
+
+* showLog　命令
+  ```
+  showlog get [number] #获取showlog第number条记录
+  showlog reset #重置showlog
+  ```
 
 
 
