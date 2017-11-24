@@ -12,6 +12,7 @@
     > requirepass "123456"
 
   * 从服务器slave\(处理读请求\)
+
     > ＃　绑定主服务器
     >
     > slaveof 192.168.30.104 6379
@@ -22,12 +23,13 @@
     >
     > masterauth "123456"
 
-* Redis 配置sentinel
+* Redis 配置sentinel\(集群的监控\) 
+
   * 编辑sentinel.conf
 
   ```
   # 后台模式运行
-  daemonize yes 
+  daemonize yes
   ```
 
   ```
